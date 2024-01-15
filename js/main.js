@@ -16,5 +16,31 @@ const addTodo = item => {
             name: item,
             completed: false
         }
+
+        todos.push(todo)
+        addToLocalStorage(todos)
+        todoInput.value = ('')
     }
+}
+
+const renderTodos = toosArray => {
+    todoItemsList.innerHTML = ''
+    todosArray.map(elementNiza => {
+        const checked = elementNiza.completed ? 'checked' : null
+
+        const li = document.createElement("li")
+        li.setAttribute("class","item")
+        li.setAttribute("date-key",elementNiza.id)
+
+        if(elementNiza.completed === true){
+            li.classList.add('checked')
+        }
+
+        li.innerHTML = `
+            <input type="checkbox" class="checkbox" ${checked}>
+            ${elementNiza.name}
+            <button class="delete-button">X</button>
+        `
+        todoItemsList.append(li)
+    })
 }
