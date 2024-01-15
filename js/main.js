@@ -19,20 +19,20 @@ const addTodo = item => {
 
         todos.push(todo)
         addToLocalStorage(todos)
-        todoInput.value = ('')
+        todoInput.value = ''
     }
 }
 
-const renderTodos = toosArray => {
+const renderTodos = todosArray => {
     todoItemsList.innerHTML = ''
     todosArray.map(elementNiza => {
         const checked = elementNiza.completed ? 'checked' : null
 
         const li = document.createElement("li")
         li.setAttribute("class","item")
-        li.setAttribute("date-key",elementNiza.id)
+        li.setAttribute("data-key",elementNiza.id)
 
-        if(elementNiza.completed === true){
+        if(elementNiza.completed == true){
             li.classList.add('checked')
         }
 
@@ -44,3 +44,53 @@ const renderTodos = toosArray => {
         todoItemsList.append(li)
     })
 }
+
+const addToLocalStorage = todosArray => {
+    localStorage.setItem('todos',JSON.stringify(todosArray))
+    renderTodos(todosArray)
+}
+
+const getFromLocalStorage = () => {
+    const ref = localStorage.getItem('todos')
+
+    if(ref){
+        todos = JSON.parse(ref)
+        renderTodos(todos)
+    }
+}
+getFromLocalStorage()
+
+const toogle = id => {
+    todos.map(elementNiza => {
+        console.log(id);
+        if(elementNiza.id == id){
+            
+            elementNiza.completed = !elementNiza.completed
+        }
+    })
+
+    addToLocalStorage(todos)
+}
+
+const deleteTodo = id => {
+    todos = todos.filter(function(elementNiza){
+        return elementNiza.id != id
+    })
+
+    addToLocalStorage(todos)
+}
+getFromLocalStorage()
+
+todoItemsList.addEventListener('click', function(event){
+
+    if(event.target.type == 'checkbox'){
+        
+        toogle(event.target.parentElement.getAttribute('data-key'))
+    }
+    if(event.target.classList.contains('delete-button')){
+        deleteTodo(event.target.parentElement.getAttribute('data-key'))
+    }
+})
+
+
+
