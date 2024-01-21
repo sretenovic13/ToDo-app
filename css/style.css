@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: sans-serif;
-    background: linear-gradient(#0081f0,#DC281E);
+    background: linear-gradient(#6c00f0,#aa3c36c7);
 }
 
 button:hover {
